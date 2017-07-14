@@ -1,0 +1,16 @@
+argon2-cffi==16.3.0
+cffi==1.10.0
+click==6.7
+Flask==0.12.2
+Flask-SQLAlchemy==2.2
+Flask-WTF==0.14.2
+itsdangerous==0.24
+Jinja2==2.9.6
+MarkupSafe==1.0
+passlib==1.7.1
+pycparser==2.18
+Pygments==2.2.0
+six==1.10.0
+SQLAlchemy==1.1.11
+Werkzeug==0.12.2
+WTForms==2.1

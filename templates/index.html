@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block container %}
+  <form method="post">
+    {{ form.csrf_token }}
+    <h3>새 페이스트</h3>
+    {{ form.source(class='source', spellcheck='false') }}
+    <h4>설정</h4>
+    <div class="options">
+      <div class="col-50">
+        <div class="option-container">
+          {{ form.highlighting(class='form-field') }}
+        </div>
+      </div>
+      <div class="col-50">
+        <div class="option-container">
+          {{ form.expiration(class='form-field') }}
+        </div>
+      </div>
+      <div class="col-80">
+        <div class="option-container">
+          {{ form.title(class='form-field', placeholder=form.title.label.text, maxlength=64) }}
+        </div>
+      </div>
+      <div class="col-20">
+        <div class="option-container">
+          {{ form.password(class='form-field', placeholder=form.password.label.text) }}
+        </div>
+      </div>
+      <div class="clearfix"></div>
+    </div>
+    <button type="submit" class="form-submit">만들기</button>
+  </form>
+
+  <script type="text/javascript">
+    $('#highlighting').select2();
+    $('#expiration').select2({minimumResultsForSearch: Infinity});
+  </script>
+{% endblock %}

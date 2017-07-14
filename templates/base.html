@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <title>NF Paste</title>
+  <link rel="stylesheet" href='{{ url_for('static', filename='css/font-awesome.min.css') }}'>
+  <link rel="stylesheet" href='{{ url_for('static', filename='css/select2.min.css') }}'>
+  <link rel="stylesheet" href='{{ url_for('static', filename='css/style.css') }}'>
+
+  <script type="text/javascript" src="{{ url_for('static', filename='js/jquery-3.2.1.slim.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/select2.min.js') }}"></script>
+  <script type="text/javascript" src="{{ url_for('static', filename='js/clipboard.min.js') }}"></script>
+
+  {% block head %}{% endblock %}
+</head>
+<body>
+  <nav>
+    <div class="container">
+      <ul>
+        <li><a href="{{ url_for('index') }}">NF Paste</a></li>
+      </ul>
+    </div>
+  </nav>
+  <div class="container">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class='flashes'>
+          {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message|safe }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block container %}{% endblock %}
+  </div>
+</body>
+</html>

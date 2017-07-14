@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+{% block head %}
+  <style type="text/css">
+    {{ styles }}
+  </style>
+{% endblock %}
+{% block container %}
+  <div class="paste">
+    <div class="paste-header">
+      {% if paste.password %}
+        <i class="fa fa-lock" aria-hidden="true"></i>
+      {% endif %}
+      <span title="{{ paste.title }}">{{ paste.title or '제목 없음' }}</span>
+      <div class="paste-tag">
+        <i class="fa fa-code" aria-hidden="true"></i>
+        {{ lexer.name }}
+      </div>
+      <div class="paste-tag">
+        <i class="fa fa-clock-o" aria-hidden="true"></i>
+        {% if paste.expire_at %}
+          {{ paste.expire_at|humanize }} 파기
+        {% else %}
+          파기 안 함
+        {% endif %}
+      </div>
+      <div class="paste-tag">
+        <i class="fa fa-calendar-o" aria-hidden="true"></i>
+        <span title="{{ paste.created_at }}">{{ paste.created_at|humanize }} 생성</span>
+      </div>
+    </div>
+    <div class="paste-body">
+      <div class="paste-actions">
+        <div id="paste-action-copy" class="paste-action" title="클립보드에 복사" data-clipboard-target="#source">
+          <i class="fa fa-clipboard" aria-hidden="true"></i>
+        </div>
+        <a href="{{ url_for('view_raw', slug=paste.slug) }}" target="_blank">
+          <div class="paste-action" title="원본 데이터 보기">
+            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+          </div>
+        </a>
+      </div>
+      <div class="paste-highlight">
+        {{ highlighted_source|safe }}
+      </div>
+    </div>
+  </div>
+  <div class="paste-source">
+    <label for="source">원본 데이터</label>
+    <textarea id="source" class="source" spellcheck="false" readonly="readonly">{{ paste.source }}</textarea>
+  </div>
+
+  <script type="text/javascript">
+    var clipboard = new Clipboard('#paste-action-copy');
+    clipboard.on('success', function(e) {
+        var $fa = $(e.trigger).children('i.fa');
+        $fa.removeClass('fa-clipboard');
+        $fa.addClass('fa-check');
+    });
+
+    $('#paste-action-copy').on('mouseleave', function(e) {
+        var $fa = $(e.target).children('i.fa');
+        $fa.removeClass('fa-check');
+        $fa.addClass('fa-clipboard');
+    });
+  </script>
+{% endblock %}

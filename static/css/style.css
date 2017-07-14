@@ -1,0 +1,310 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  color: #252729;
+  background-color: #fcfcfc;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  margin: .5em 0 .6em 0;
+}
+
+input, select, textarea {
+  outline: none;
+  width: 100%;
+}
+
+input[type="text"], input[type="password"], textarea {
+  padding: 10px;
+  border: solid 1px #b7b7b7;
+  border-radius: 3px;
+  transition: 0.1s;
+}
+
+input[type="text"]:focus, input[type="password"]:focus {
+  border-bottom-color: #ff8300;
+  -webkit-box-shadow: 0 2px 0 0 rgba(255, 131, 0, 1);
+  -moz-box-shadow: 0 2px 0 0 rgba(255, 131, 0, 1);
+  box-shadow: 0 2px 0 0 rgba(255, 131, 0, 1);
+}
+
+label {
+  display: block;
+  margin-bottom: 0.3em;
+
+  font-size: .9em;
+  font-weight: 400;
+}
+
+pre {
+  margin: 0;
+  padding: .5em 0;
+
+  font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+  font-size: .8em;
+}
+
+[class*="col-"] {
+  display: inline-block;
+  vertical-align: top;
+  float: left;
+}
+
+.col-20 {
+  width: 20%;
+}
+
+.col-50 {
+  width: 50%;
+}
+
+.col-80 {
+  width: 80%;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+.container {
+  margin: 0 auto;
+  width: 780px;
+}
+
+nav {
+  margin-top: 15px;
+  margin-bottom: 30px;
+}
+
+nav ul {
+  margin: 0;
+  padding: 0;
+
+  font-size: 1.1em;
+
+  list-style-type: none;
+}
+
+nav li {
+  background-color: #ff8300;
+  display: inline-block;
+  margin: 0;
+  padding: .5em 1em .5em 1em;
+}
+
+nav a {
+  color: white;
+}
+
+.flash {
+  padding: .5em;
+
+  border-radius: 3px;
+
+  text-align: center;
+  
+  font-weight: bold;
+  font-size: .9em;
+}
+
+.flash-error {
+  color: #722e2d;
+  background-color: #f2838f;
+  border: 1px solid #ed5565;
+}
+
+.center {
+  margin: 0 auto;
+  text-align: center;
+  float: none;
+}
+
+.source {
+  margin-bottom: 2em;
+  padding: 10px;
+  width: 100%;
+  height: 400px;
+
+  font-family: 'Consolas', 'Deja Vu Sans Mono', 'Bitstream Vera Sans Mono', monospace;
+  font-size: .8em;
+
+  line-height: 1.4em;
+  resize: vertical;
+}
+
+.options {
+  margin-bottom: 40px;
+}
+
+.option-container {
+  margin-bottom: 10px;
+  padding: 0 5px;
+}
+
+.form-field {
+  padding: .4em;
+
+  border: 1px solid #b7b7b7;
+  font-size: 0.9em;
+}
+
+.form-submit {
+  width: 100%;
+
+  margin-top: 10px;
+  padding: 0.9em;
+
+  border: none;
+  border-radius: 3px;
+
+  background-color: #ff8300;
+
+  text-align: center;
+  color: white;
+}
+
+.select2-container .select2-selection--single {
+  height: unset;
+  border: 1px solid #b7b7b7;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+  padding: .3em 1em;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+  height: 38px;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow b {
+  margin-left: -13px;
+}
+
+.paste {
+  border: 1px solid #b7b7b7;
+  border-radius: 3px;
+}
+
+.paste-header {
+  background-color: #f3f3f3;
+  border-bottom: 1px solid #d7d7d7;
+
+  padding: .5em 1em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.paste-tag {
+  float: right;
+
+  padding: .1em .4em;
+  margin-left: 10px;
+
+  background-color: #e7e7e7;
+  border: 1px solid #d7d7d7;
+  border-radius: 3px;
+
+  font-size: .8em;
+  font-weight: lighter;
+}
+
+.paste-tag i.fa {
+  margin-right: 3px;
+}
+
+.paste-body {
+  position: relative;
+}
+
+.paste-actions {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+}
+
+.paste-action {
+  float: right;
+
+  padding: .1em .4em;
+  margin-left: 5px;
+
+  background-color: #e7e7e7;
+  border: 1px solid #d7d7d7;
+  border-radius: 3px;
+
+  font-size: .8em;
+  font-weight: lighter;
+
+  cursor: pointer;
+}
+
+.paste-action:hover {
+  background-color: #d7d7d7;
+}
+
+.paste-highlight {
+  background-color: white;
+  line-height: 1.2em;
+
+  overflow-x: auto;
+}
+
+.highlighttable {
+  width: 100%;
+
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.highlighttable td {
+    padding: 0;
+}
+
+.linenos {
+    width: 50px;
+}
+
+.linenodiv {
+  width: 50px;
+  background-color: #f7f7f7;
+
+  text-align: right;
+  padding-right: .5em;
+
+  border-right: 1px solid #d7d7d7;
+}
+
+.linenodiv a {
+  color: #acacac;
+}
+
+span[id*="line-"] {
+  display: block;
+  padding-left: 10px;
+}
+
+span[id*="line-"]:hover {
+    background-color: #f7f7f7;
+}
+
+.paste-source {
+  margin-top: 20px;
+}
+
+.password {
+  margin-top: 50%;
+}
