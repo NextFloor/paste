@@ -68,5 +68,18 @@
             $fa.addClass('fa-clipboard');
         }, 1500);
     });
+
+    $(window).on('hashchange', function() {
+        $('span[id*="line-"]').removeClass('line-highlighted');
+
+        var line = window.location.hash.substr(1);
+        if (/^line-\d+$/.test(line)) {
+            console.log(line);
+            var $line = $('#' + line);
+            $line.addClass('line-highlighted');
+        }
+    });
+
+    $(window).trigger('hashchange');
   </script>
 {% endblock %}
