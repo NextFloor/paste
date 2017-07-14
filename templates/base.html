@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <title>NF Paste</title>
+  <title>Paste</title>
   <link href="https://fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet">
   <link href='https://spoqa.github.io/spoqa-han-sans/css/SpoqaHanSans-kr.css' rel='stylesheet' type='text/css'>
   <link rel="stylesheet" href='{{ url_for('static', filename='css/font-awesome.min.css') }}'>
@@ -17,9 +17,7 @@
 <body>
   <nav>
     <div class="container">
-      <ul>
-        <li><a href="{{ url_for('index') }}">NF Paste</a></li>
-      </ul>
+      <a href="{{ url_for('index') }}"><div class="logo">Paste</div></a>
     </div>
   </nav>
   <div class="container">
