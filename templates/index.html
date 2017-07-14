@@ -3,7 +3,7 @@
   <form method="post">
     {{ form.csrf_token }}
     <h3>새 페이스트</h3>
-    {{ form.source(class='source', spellcheck='false') }}
+    {{ form.source(class='source', autofocus='autofocus', spellcheck='false') }}
     <h4>설정</h4>
     <div class="options">
       <div class="col-50">
