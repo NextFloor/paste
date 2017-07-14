@@ -1,6 +1,6 @@
 from datetime import datetime, timedelta
 from flask import Flask, Response
-from flask import abort, flash, redirect, render_template, url_for
+from flask import abort, flash, redirect, render_template, session, url_for
 from flask_humanize import Humanize
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name, guess_lexer
@@ -76,6 +76,15 @@ def view(slug):
             flash_errors(form)
             return render_template('password.html', form=form)
 
+    viewed = session.setdefault('viewed', [])
+    if paste.slug not in viewed:
+        viewed.append(paste.slug)
+        session.permanent = True
+        session.modified = True
+        paste.view_count += 1
+        db.session.add(paste)
+        db.session.commit()
+
     lexer = get_lexer_by_name(paste.lexer)
     formatter = HtmlFormatter(
         linenos=True,
@@ -100,7 +109,6 @@ def view_raw(slug):
         abort(401)
 
     return Response(response=paste.source, status=200, mimetype='text/plain')
-
 
 
 def flash_errors(form):
