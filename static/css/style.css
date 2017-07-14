@@ -11,6 +11,7 @@ body {
   color: #252729;
   background-color: #fcfcfc;
   font-family: 'Spoqa Han Sans', sans-serif;
+  overflow-y: scroll;
 }
 
 a {
@@ -23,7 +24,7 @@ h1, h2, h3, h4, h5, h6 {
   margin: .5em 0 .6em 0;
 }
 
-input, select, textarea {
+input, select, textarea, button {
   outline: none;
   width: 100%;
 }
@@ -125,7 +126,6 @@ nav a {
 
   text-align: center;
   
-  font-weight: bold;
   font-size: .9em;
 }
 
@@ -221,6 +221,10 @@ nav a {
   text-overflow: ellipsis;
 }
 
+.paste-header i.fa {
+  margin-right: 3px;
+}
+
 .paste-tag {
   float: right;
 
@@ -232,10 +236,6 @@ nav a {
   border-radius: 3px;
 
   font-size: .8em;
-}
-
-.paste-tag i.fa {
-  margin-right: 3px;
 }
 
 .paste-body {
