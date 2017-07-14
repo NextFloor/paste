@@ -56,15 +56,15 @@
   <script type="text/javascript">
     var clipboard = new Clipboard('#paste-action-copy');
     clipboard.on('success', function(e) {
+        e.clearSelection();
         var $fa = $(e.trigger).children('i.fa');
         $fa.removeClass('fa-clipboard');
         $fa.addClass('fa-check');
-    });
 
-    $('#paste-action-copy').on('mouseleave', function(e) {
-        var $fa = $(e.target).children('i.fa');
-        $fa.removeClass('fa-check');
-        $fa.addClass('fa-clipboard');
+        setTimeout(function() {
+            $fa.removeClass('fa-check');
+            $fa.addClass('fa-clipboard');
+        }, 2000);
     });
   </script>
 {% endblock %}
