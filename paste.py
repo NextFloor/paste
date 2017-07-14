@@ -13,7 +13,8 @@ from models import Paste
 
 
 app = Flask(__name__)
-app.config.from_object('config.DevelopmentConfig')
+app.config.from_object('config.development')
+app.config.from_envvar('PASTE_SETTINGS', silent=True)
 db.init_app(app)
 humanize = Humanize(app)
 

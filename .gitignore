@@ -168,3 +168,6 @@ ENV/
 
 # Databases
 *.sqlite3
+
+# Deployment
+config/production.py
