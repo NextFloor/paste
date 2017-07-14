@@ -22,7 +22,7 @@
       <div class="paste-tag">
         <i class="fa fa-clock-o" aria-hidden="true"></i>
         {% if paste.expire_at %}
-          {{ paste.expire_at|humanize }} 파기
+          <span title="{{ paste.expire_at }}">{{ paste.expire_at|humanize }} 파기</span>
         {% else %}
           파기 안 함
         {% endif %}
