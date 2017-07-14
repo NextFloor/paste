@@ -16,7 +16,7 @@ How to run
 
 .. code-block:: console
 
-   $ git clone git@github.com:nextfloor/paste.git
+   $ git clone https://github.com/nextfloor/paste.git
    $ cd paste
    $ pip install -r requirements.txt
    $ FLASK_APP=paste flask run
