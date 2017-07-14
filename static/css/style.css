@@ -1,5 +1,6 @@
 * {
   box-sizing: border-box;
+  outline: none;
 }
 
 html, body {
@@ -20,20 +21,44 @@ a {
 }
 
 h1, h2, h3, h4, h5, h6 {
-  font-weight: normal;
   margin: .5em 0 .6em 0;
+
+  font-weight: normal;
+
+  cursor: default;
+  user-select: none
+}
+
+button {
+  width: 100%;
+
+  margin-top: 10px;
+  padding: 0.9em;
+
+  border: none;
+  border-radius: 3px;
+
+  background-color: #ff8300;
+
+  color: white;
+  text-align: center;
+
+  font-size: .9em;
+
+  cursor: pointer;
+  user-select: none;
 }
 
 input, select, textarea, button {
-  outline: none;
   width: 100%;
 }
 
 input[type="text"], input[type="password"], textarea {
   padding: 10px;
-  border: solid 1px #b7b7b7;
+  border: 1px solid #b7b7b7;
   border-radius: 3px;
   transition: 0.1s;
+  font-size: 0.9em;
 }
 
 input[type="text"]:focus, input[type="password"]:focus {
@@ -113,6 +138,8 @@ nav .logo {
   background-color: #ff8300;
 
   font-size: 1.1em;
+
+  user-select: none
 }
 
 nav a {
@@ -163,27 +190,6 @@ nav a {
 }
 
 .form-field {
-  padding: .4em;
-
-  border: 1px solid #b7b7b7;
-  font-size: 0.9em;
-}
-
-.form-submit {
-  width: 100%;
-
-  margin-top: 10px;
-  padding: 0.9em;
-
-  border: none;
-  border-radius: 3px;
-
-  background-color: #ff8300;
-
-  text-align: center;
-  color: white;
-
-  font-size: .9em;
 }
 
 .form-submit:hover {
