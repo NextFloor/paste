@@ -47,8 +47,15 @@ html, body {
 body {
   color: #252729;
   background-color: #fcfcfc;
-  font-family: 'Spoqa Han Sans', sans-serif;
   overflow-y: scroll;
+}
+
+body, button, input {
+  font-family: 'Spoqa Han Sans', sans-serif;
+}
+
+pre, .logo, .source {
+  font-family: 'Source Code Pro', monospace;
 }
 
 a {
@@ -116,10 +123,6 @@ pre {
   padding: .5em 0;
 
   font-size: .8em;
-}
-
-pre, .logo, .source {
-  font-family: 'Source Code Pro', monospace;
 }
 
 [class*="col-"] {
