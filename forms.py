@@ -1,10 +1,18 @@
+from flask import flash
 from flask_wtf import FlaskForm
 from pygments.lexers import get_all_lexers
 from wtforms import SelectField, StringField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, Length
 
 
-class PasteForm(FlaskForm):
+class ErrorFlashMixin:
+    def flash_errors(self):
+        for field, errors in self.errors.items():
+            for error in errors:
+                flash('{} 입력칸에 다음과 같은 문제가 있습니다<br>{}'.format(getattr(self, field).label.text, error), 'error')
+
+
+class PasteForm(ErrorFlashMixin, FlaskForm):
     source = TextAreaField('내용', validators=[DataRequired()])
     title = StringField('제목 (선택)', validators=[Length(max=64)])
     password = PasswordField('비밀번호 (선택)')
@@ -21,5 +29,5 @@ class PasteForm(FlaskForm):
     ))
 
 
-class PasswordForm(FlaskForm):
+class PasswordForm(ErrorFlashMixin, FlaskForm):
     password = PasswordField('비밀번호', validators=[DataRequired()])

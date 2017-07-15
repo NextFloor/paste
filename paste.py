@@ -59,7 +59,7 @@ def index():
 
         return redirect(url_for('view', slug=paste.slug))
     else:
-        flash_errors(form)
+        form.flash_errors()
 
     return render_template('index.html', form=form)
 
@@ -74,7 +74,7 @@ def view(slug):
                 flash('비밀번호가 일치하지 않습니다.', 'error')
                 return render_template('password.html', form=form)
         else:
-            flash_errors(form)
+            form.flash_errors()
             return render_template('password.html', form=form)
 
     viewed = session.setdefault('viewed', [])
@@ -110,9 +110,3 @@ def view_raw(slug):
         abort(401)
 
     return Response(response=paste.source, status=200, mimetype='text/plain')
-
-
-def flash_errors(form):
-    for field, errors in form.errors.items():
-        for error in errors:
-            flash('{} 입력칸에 다음과 같은 문제가 있습니다<br>{}'.format(getattr(form, field).label.text, error), 'error')
