@@ -1,9 +1,8 @@
-from datetime import datetime, timedelta
 from flask import Flask, Response
 from flask import abort, flash, redirect, render_template, session, url_for
 from flask_humanize import Humanize
 from pygments import highlight
-from pygments.lexers import get_lexer_by_name, guess_lexer
+from pygments.lexers import get_lexer_by_name
 from pygments.formatters.html import HtmlFormatter
 from sqlalchemy.exc import IntegrityError
 
@@ -34,18 +33,13 @@ def index():
     form = PasteForm()
 
     if form.validate_on_submit():
-        paste = Paste()
-        paste.source = form.source.data
-        if form.highlighting.data == 'auto':
-            paste.lexer = guess_lexer(form.source.data).aliases[0]
-        else:
-            paste.lexer = form.highlighting.data
-        if form.title.data:
-            paste.title = form.title.data
-        if form.password.data:
-            paste.password = form.password.data
-        if int(form.expiration.data) > 0:
-            paste.expire_at = datetime.now() + timedelta(minutes=int(form.expiration.data))
+        paste = Paste(
+            form.source.data,
+            form.highlighting.data,
+            form.expiration.data,
+            form.title.data,
+            form.password.data,
+        )
 
         while 1:
             try:

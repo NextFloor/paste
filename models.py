@@ -1,9 +1,10 @@
 import random
 import string
-from datetime import datetime
+from datetime import datetime, timedelta
 from flask import abort
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import argon2
+from pygments.lexers import guess_lexer
 
 
 db = SQLAlchemy()
@@ -19,6 +20,20 @@ class Paste(db.Model):
     view_count = db.Column(db.Integer, nullable=False, default=0)
     created_at = db.Column(db.DateTime, default=datetime.now)
     expire_at = db.Column(db.DateTime)
+
+    def __init__(self, source, highlight, expiration, title, password):
+        expiration = int(expiration)
+        self.source = source
+        if title:
+            self.title = title
+        if password:
+            self.password = password
+        if expiration > 0:
+            self.expire_at = datetime.now() + timedelta(minutes=expiration)
+        if highlight == 'auto':
+            self.lexer = guess_lexer(source).aliases[0]
+        else:
+            self.lexer = highlight
 
     @db.validates('password')
     def _validate_password(self, key, password):
