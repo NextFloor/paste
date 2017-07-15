@@ -114,6 +114,5 @@ def view_raw(slug):
 
 def flash_errors(form):
     for field, errors in form.errors.items():
-        print(errors)
         for error in errors:
             flash('{} 입력칸에 다음과 같은 문제가 있습니다<br>{}'.format(getattr(form, field).label.text, error), 'error')
