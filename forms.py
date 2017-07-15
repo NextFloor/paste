@@ -21,7 +21,7 @@ class PasteForm(ErrorFlashMixin, FlaskForm):
         ] + [(lexer[1][0], lexer[0]) for lexer in sorted(get_all_lexers())]
     )
     expiration = SelectField('자동 파기', choices=(
-        ('0', '자동 파기 안 함'),
+        ('-1', '자동 파기 안 함'),
         ('1', '1분 뒤'),
         ('10', '10분 뒤'),
         ('60', '1시간 뒤'),
