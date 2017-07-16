@@ -18,12 +18,12 @@
   {% block head %}{% endblock %}
 </head>
 <body>
-  <nav>
-    <div class="container">
+  <header>
+    <nav>
       <a href="{{ url_for('index') }}"><div class="logo">Paste</div></a>
-    </div>
-  </nav>
-  <div class="container">
+    </nav>
+  </header>
+  <article>
     {% with messages = get_flashed_messages(with_categories=true) %}
       {% if messages %}
         <div class='flashes'>
@@ -34,6 +34,11 @@
       {% endif %}
     {% endwith %}
     {% block container %}{% endblock %}
-  </div>
+  </article>
+  <footer>
+    <div class="center">
+       © 2017 NextFloor
+    </div>
+  </footer>
 </body>
 </html>

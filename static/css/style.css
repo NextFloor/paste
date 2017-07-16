@@ -149,9 +149,15 @@ pre {
     display: table;
 }
 
-.container {
+header, article, footer {
   margin: 0 auto;
   width: 1000px;
+}
+
+footer {
+  margin-top: 50px;
+  font-size: .8em;
+  color: #b7b7b7;
 }
 
 nav {
