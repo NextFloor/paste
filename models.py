@@ -5,6 +5,7 @@ from flask import abort
 from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import argon2
 from pygments.lexers import guess_lexer
+from sqlalchemy.sql import exists
 
 
 db = SQLAlchemy()
@@ -23,6 +24,9 @@ class Paste(db.Model):
 
     def __init__(self, source, highlight, expiration, title, password):
         expiration = int(expiration)
+
+        if not source:
+            raise ValueError()
         self.source = source
         if title:
             self.title = title
@@ -34,6 +38,14 @@ class Paste(db.Model):
             self.lexer = guess_lexer(source).aliases[0]
         else:
             self.lexer = highlight
+
+        for _ in range(5):
+            slug = self._generate_random_slug()
+            if not db.session.query(exists().where(Paste.slug == slug)).scalar():
+                self.slug = slug
+                break
+        else:
+            raise RuntimeError()
 
     @db.validates('password')
     def _validate_password(self, key, password):
@@ -53,5 +65,5 @@ class Paste(db.Model):
         return paste
 
     @staticmethod
-    def generate_slug():
+    def _generate_random_slug():
         return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(4))

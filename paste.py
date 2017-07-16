@@ -4,7 +4,6 @@ from flask_humanize import Humanize
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters.html import HtmlFormatter
-from sqlalchemy.exc import IntegrityError
 
 from forms import PasteForm, PasswordForm
 from models import db
@@ -41,15 +40,8 @@ def index():
             form.password.data,
         )
 
-        while 1:
-            try:
-                paste.slug = Paste.generate_slug()
-                db.session.add(paste)
-                db.session.commit()
-            except IntegrityError:
-                db.session.rollback()
-            else:
-                break
+        db.session.add(paste)
+        db.session.commit()
 
         return redirect(url_for('view', slug=paste.slug))
     else:
