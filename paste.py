@@ -5,12 +5,14 @@ from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters.html import HtmlFormatter
 
+from api import api
 from forms import PasteForm, PasswordForm
 from models import db
 from models import Paste
 
 
 app = Flask(__name__)
+app.register_blueprint(api, url_prefix='/api')
 app.config.from_object('config.development')
 app.config.from_envvar('PASTE_SETTINGS', silent=True)
 db.init_app(app)
