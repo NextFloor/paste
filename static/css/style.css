@@ -75,7 +75,7 @@ h1, h2, h3, h4, h5, h6 {
 button {
   width: 100%;
 
-  margin-top: 10px;
+  margin: 10px 0;
   padding: 0.9em;
 
   border: none;
@@ -90,6 +90,10 @@ button {
 
   cursor: pointer;
   user-select: none;
+}
+
+button:hover {
+  background-color: #e67600;
 }
 
 input, select, textarea, button {
@@ -155,7 +159,8 @@ header, article, footer {
 }
 
 footer {
-  margin-top: 50px;
+  margin-top: 10px;
+  margin-bottom: 30px;
   font-size: .8em;
   color: #b7b7b7;
 }
@@ -232,13 +237,6 @@ nav a {
 .option-container {
   margin-bottom: 10px;
   padding: 0 5px;
-}
-
-.form-field {
-}
-
-.form-submit:hover {
-  background-color: #e67600;
 }
 
 .select2-container .select2-selection--single {
@@ -379,5 +377,5 @@ span[id*="line-"]:hover {
 }
 
 .password {
-  margin-top: 50%;
+  margin-top: 40%;
 }
