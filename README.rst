@@ -22,12 +22,6 @@ How to run
    $ FLASK_APP=paste flask run
 
 
-Configrations
--------------
-
-See ``settings.py`` file.
-
-
 License
 -------
 
