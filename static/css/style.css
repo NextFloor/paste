@@ -69,7 +69,10 @@ h1, h2, h3, h4, h5, h6 {
   font-weight: normal;
 
   cursor: default;
-  user-select: none
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 button {
@@ -90,6 +93,9 @@ button {
 
   cursor: pointer;
   user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 button:hover {
@@ -104,11 +110,11 @@ input[type="text"], input[type="password"], textarea {
   padding: 10px;
   border: 1px solid #b7b7b7;
   border-radius: 3px;
-  transition: 0.1s;
+  transition: 0.2s;
   font-size: 0.9em;
 }
 
-input[type="text"]:focus, input[type="password"]:focus {
+input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
   border-bottom-color: #ff8300;
   -webkit-box-shadow: 0 2px 0 0 rgba(255, 131, 0, 1);
   -moz-box-shadow: 0 2px 0 0 rgba(255, 131, 0, 1);
@@ -148,9 +154,9 @@ pre {
 }
 
 .clearfix::after {
-    content: "";
-    clear: both;
-    display: table;
+  content: "";
+  clear: both;
+  display: table;
 }
 
 header, article, footer {
@@ -163,6 +169,12 @@ footer {
   margin-bottom: 30px;
   font-size: .8em;
   color: #b7b7b7;
+
+  cursor: default;
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 nav {
@@ -189,7 +201,10 @@ nav .logo {
 
   font-size: 1.1em;
 
-  user-select: none
+  user-select: none;
+  -ms-user-select: none;
+  -moz-user-select: none;
+  -webkit-user-select: none;
 }
 
 nav a {
