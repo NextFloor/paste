@@ -51,7 +51,7 @@ $(function() {
 
         var file = dt.files[0];
 
-        if (dt.files.length > 1 || (!file.type && file.size % 4096 === 0)) {
+        if (dt.files.length > 1 || (!file.type && file.size % 4096 === 0 && file.size <= 102400)) {
             $('.source-upload-overlay').fadeOut('fast');
             $('.source').prop('readonly', false);
 
