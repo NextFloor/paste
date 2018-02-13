@@ -45,8 +45,6 @@ $(function() {
     }).on('drop', function (e) {
         var dt = e.originalEvent.dataTransfer;
 
-        console.log(dt);
-
         if (!isFileTransfer(dt)) {
             return;
         }
@@ -61,10 +59,11 @@ $(function() {
             return;
         }
 
+        $('#source')
+            .prop('placeholder', '')
+            .text('\u200b');
 
         $('#source-upload-overlay-status').html('업로드 준비 중...');
-
-        $('#source').text('\u200b');
         $('.source-upload-overlay').css('pointer-events', 'auto');
         $('#highlighting')
             .val('auto').trigger('change.select2')
