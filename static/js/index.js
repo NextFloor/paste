@@ -99,8 +99,10 @@ $(function() {
                         $('#resource').val(data.Location);
                     }
                 }).on('httpUploadProgress', function (progress) {
-                    var percentage = Math.round(progress.loaded / progress.total * 100);
-                    $('#source-upload-overlay-status').text('업로드 중 (' + percentage + '%)...');
+                    var percentage = Math.round((progress.loaded / progress.total) * 100);
+                    var mbLoaded = (progress.loaded / 1000 / 1000).toFixed(2);
+                    var mbTotal = (progress.total / 1000 / 1000).toFixed(2);
+                    $('#source-upload-overlay-status').html('업로드 중...<br>(' + mbLoaded + ' / ' + mbTotal + ' MB, ' + percentage + '%)');
                 });
             });
         });
