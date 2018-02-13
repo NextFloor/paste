@@ -1,6 +1,10 @@
 from flask import Flask, Response
-from flask import abort, flash, redirect, render_template, session, url_for
+from flask import abort, flash, jsonify, redirect, render_template, session, url_for
+from flask_boto3 import Boto3
 from flask_humanize import Humanize
+
+import botocore
+import uuid
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters.html import HtmlFormatter
@@ -15,8 +19,10 @@ app = Flask(__name__)
 app.register_blueprint(api, url_prefix='/api')
 app.config.from_object('config.development')
 app.config.from_envvar('PASTE_SETTINGS', silent=True)
+app.config['BOTO3_SERVICES'] = ['s3']
 db.init_app(app)
 humanize = Humanize(app)
+boto3 = Boto3(app)
 
 
 @humanize.localeselector
@@ -34,12 +40,21 @@ def index():
     form = PasteForm()
 
     if form.validate_on_submit():
+        source = form.source.data
+        highlighting = form.highlighting.data
+        is_resource = False
+        if form.resource.data:
+            source = form.resource.data
+            highlighting = 'text'
+            is_resource = True
+
         paste = Paste(
-            form.source.data,
-            form.highlighting.data,
+            source,
+            highlighting,
             form.expiration.data,
             form.title.data,
             form.password.data,
+            is_resource
         )
 
         db.session.add(paste)
@@ -49,7 +64,11 @@ def index():
     else:
         form.flash_errors()
 
-    return render_template('index.html', form=form)
+    return render_template('index.html', form=form, js={
+        'bucket_region': app.config['BOTO3_REGION'],
+        'bucket_name': app.config['AWS_S3_BUCKET'],
+        'identity_pool_id': app.config['AWS_COGNITO_IDENTITY_POOL'],
+    })
 
 
 @app.route('/<slug>', methods=['GET', 'POST'])
@@ -98,3 +117,26 @@ def view_raw(slug):
         abort(401)
 
     return Response(response=paste.source, status=200, mimetype='text/plain')
+
+
+@app.route('/x/k', methods=['POST'])
+def generate_random_s3_key():
+    with app.app_context():
+        s3_client = boto3.clients['s3']
+        for _ in range(5):
+            key = str(uuid.uuid4()) + '/'
+            try:
+                s3_client.head_object(
+                    Bucket=app.config['AWS_S3_BUCKET'],
+                    Key=key
+                )
+            except botocore.exceptions.ClientError as e:
+                error_code = int(e.response['Error']['Code'])
+                if error_code == 404:
+                    break
+                else:
+                    raise
+        else:
+            raise RuntimeError()
+
+        return jsonify(key=key)

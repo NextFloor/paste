@@ -1,7 +1,7 @@
 from flask import flash
 from flask_wtf import FlaskForm
 from pygments.lexers import get_all_lexers
-from wtforms import SelectField, StringField, PasswordField, TextAreaField
+from wtforms import HiddenField, SelectField, StringField, PasswordField, TextAreaField
 from wtforms.validators import DataRequired, Length
 
 
@@ -13,6 +13,7 @@ class ErrorFlashMixin:
 
 
 class PasteForm(ErrorFlashMixin, FlaskForm):
+    resource = HiddenField()
     source = TextAreaField('내용', validators=[DataRequired()])
     title = StringField('제목 (선택)', validators=[Length(max=64)])
     password = PasswordField('비밀번호 (선택)')

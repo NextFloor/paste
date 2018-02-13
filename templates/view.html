@@ -13,7 +13,11 @@
       <span title="{{ paste.title }}">{{ paste.title or '제목 없음' }}</span>
       <div class="paste-tag">
         <i class="fa fa-code" aria-hidden="true"></i>
-        {{ lexer.name }}
+        {% if paste.is_resource %}
+          File only
+        {% else %}
+          {{ lexer.name }}
+        {% endif %}
       </div>
       <div class="paste-tag">
         <i class="fa fa-eye" aria-hidden="true"></i>
@@ -33,21 +37,27 @@
       </div>
     </div>
     <div class="paste-body">
-      <div class="paste-actions">
-        <div id="paste-action-copy" class="paste-action" title="클립보드에 복사" data-clipboard-target="#source">
-          <i class="fa fa-clipboard" aria-hidden="true"></i>
+      {% if paste.is_resource %}
+        <div class="paste-download">
+          <a href="{{ paste.source }}" target="_self"><button><i class="fa fa-cloud-download" aria-hidden="true"></i> 파일 다운로드</button></a>
         </div>
-        {% if not paste.password %}
-        <a href="{{ url_for('view_raw', slug=paste.slug) }}" target="_blank">
-          <div class="paste-action" title="원본 데이터 보기">
-            <i class="fa fa-file-text-o" aria-hidden="true"></i>
+      {% else %}
+        <div class="paste-actions">
+          <div id="paste-action-copy" class="paste-action" title="클립보드에 복사" data-clipboard-target="#source">
+            <i class="fa fa-clipboard" aria-hidden="true"></i>
           </div>
-        </a>
-        {% endif %}
-      </div>
-      <div class="paste-highlight">
-        {{ highlighted_source|safe }}
-      </div>
+          {% if not paste.password %}
+            <a href="{{ url_for('view_raw', slug=paste.slug) }}" target="_blank">
+              <div class="paste-action" title="원본 데이터 보기">
+                <i class="fa fa-file-text-o" aria-hidden="true"></i>
+              </div>
+            </a>
+          {% endif %}
+        </div>
+        <div class="paste-highlight">
+          {{ highlighted_source|safe }}
+        </div>
+      {% endif %}
     </div>
   </div>
   <div class="paste-source">

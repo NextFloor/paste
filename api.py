@@ -16,6 +16,7 @@ def post():
         request.form['expiration'],
         request.form['title'],
         request.form['password'],
+        False,
     )
 
     db.session.add(paste)

@@ -18,16 +18,18 @@ class Paste(db.Model):
     lexer = db.Column(db.String(32), nullable=False)
     title = db.Column(db.String(64))
     password = db.Column(db.String(128))
+    is_resource = db.Column(db.Boolean, default=False)
     view_count = db.Column(db.Integer, nullable=False, default=0)
     created_at = db.Column(db.DateTime, default=datetime.now)
     expire_at = db.Column(db.DateTime)
 
-    def __init__(self, source, highlight, expiration, title, password):
+    def __init__(self, source, highlight, expiration, title, password, is_resource):
         expiration = int(expiration)
 
         if not source:
             raise ValueError()
         self.source = source
+        self.is_resource = is_resource
         if title:
             self.title = title
         if password:
