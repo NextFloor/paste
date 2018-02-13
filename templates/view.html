@@ -69,6 +69,10 @@
         }, 1500);
     });
 
+    $('#source').on('focus', function() {
+        $(this).select();
+    });
+
     $(window).on('hashchange', function() {
         $('span[id*="line-"]').removeClass('line-highlighted');
 
