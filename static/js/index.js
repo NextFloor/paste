@@ -105,6 +105,9 @@ $(function() {
                     $('#source-upload-overlay-status').html('업로드 중...<br>(' + mbLoaded + ' / ' + mbTotal + ' MB, ' + percentage + '%)');
                 });
             });
+        }).fail(function(xhr, err) {
+            alert('generate key error');
+            console.log(err);
         });
     });
 });
