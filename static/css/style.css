@@ -456,6 +456,10 @@ span[id*="line-"]:hover {
   background-color: #fffbdd;
 }
 
+.paste-url {
+  margin-top: 20px;
+}
+
 .paste-source {
   margin-top: 20px;
 }

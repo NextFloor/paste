@@ -60,6 +60,10 @@
       {% endif %}
     </div>
   </div>
+  <div class="paste-url">
+    <label for="url">주소</label>
+    <input id="url" type="text" readonly="readonly" value="{{ request.url }}">
+  </div>
   {% if not paste.is_resource %}
     <div class="paste-source">
       <label for="source">원본 데이터</label>
@@ -81,7 +85,7 @@
         }, 1500);
     });
 
-    $('#source').on('focus', function() {
+    $('#url, #source').on('focus', function() {
         $(this).select();
     });
 
