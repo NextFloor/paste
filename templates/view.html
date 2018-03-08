@@ -60,10 +60,12 @@
       {% endif %}
     </div>
   </div>
-  <div class="paste-source">
-    <label for="source">원본 데이터</label>
-    <textarea id="source" class="source" spellcheck="false" readonly="readonly">{{ paste.source }}</textarea>
-  </div>
+  {% if not paste.is_resource %}
+    <div class="paste-source">
+      <label for="source">원본 데이터</label>
+      <textarea id="source" class="source" spellcheck="false" readonly="readonly">{{ paste.source }}</textarea>
+    </div>
+  {% endif %}
 
   <script type="text/javascript">
     var clipboard = new Clipboard('#paste-action-copy');
