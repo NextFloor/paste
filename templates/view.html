@@ -39,7 +39,7 @@
     <div class="paste-body">
       {% if paste.is_resource %}
         <div class="paste-download">
-          <a href="{{ paste.source }}" target="_self"><button><i class="fa fa-cloud-download" aria-hidden="true"></i> 파일 다운로드</button></a>
+          <a href="{{ url|safe }}" target="_self"><button><i class="fa fa-cloud-download" aria-hidden="true"></i> 파일 다운로드</button></a>
         </div>
       {% else %}
         <div class="paste-actions">

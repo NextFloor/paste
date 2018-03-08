@@ -74,36 +74,26 @@ $(function() {
             method: 'POST',
             dataType: 'json'
         }).done(function(data) {
-            var containerKey = data.key;
-            s3.putObject({
-                Key: containerKey
-            }, function(err) {
+            var key = data.key;
+            s3.upload({
+                Key: key,
+                Body: file,
+                ContentDisposition: 'attachment; filename="' + file.name + '"'
+            }, function (err) {
                 if (err) {
-                    alert('create object error');
+                    alert('upload error');
                     console.log(err);
-                    return;
+                } else {
+                    $('.source-upload-overlay').addClass('source-upload-overlay-green');
+                    $('.source-upload-overlay-icon').removeClass('fa-cloud-upload').addClass('fa-check');
+                    $('#source-upload-overlay-status').html('업로드 완료!<br>하단 정보를 기입하고 만들기 버튼을 눌러주세요.');
+                    $('#resource').val(key);
                 }
-
-                s3.upload({
-                    Key: containerKey + file.name,
-                    Body: file,
-                    ACL: 'public-read'
-                }, function (err, data) {
-                    if (err) {
-                        alert('upload error');
-                        console.log(err);
-                    } else {
-                        $('.source-upload-overlay').addClass('source-upload-overlay-green');
-                        $('.source-upload-overlay-icon').removeClass('fa-cloud-upload').addClass('fa-check');
-                        $('#source-upload-overlay-status').html('업로드 완료!<br>하단 정보를 기입하고 만들기 버튼을 눌러주세요.');
-                        $('#resource').val(data.Location);
-                    }
-                }).on('httpUploadProgress', function (progress) {
-                    var percentage = Math.round((progress.loaded / progress.total) * 100);
-                    var mbLoaded = (progress.loaded / 1000 / 1000).toFixed(2);
-                    var mbTotal = (progress.total / 1000 / 1000).toFixed(2);
-                    $('#source-upload-overlay-status').html('업로드 중...<br>(' + mbLoaded + ' / ' + mbTotal + ' MB, ' + percentage + '%)');
-                });
+            }).on('httpUploadProgress', function (progress) {
+                var percentage = Math.round((progress.loaded / progress.total) * 100);
+                var mbLoaded = (progress.loaded / 1000 / 1000).toFixed(2);
+                var mbTotal = (progress.total / 1000 / 1000).toFixed(2);
+                $('#source-upload-overlay-status').html('업로드 중...<br>(' + mbLoaded + ' / ' + mbTotal + ' MB, ' + percentage + '%)');
             });
         }).fail(function(xhr, err) {
             alert('generate key error');

@@ -42,9 +42,10 @@ def index():
     if form.validate_on_submit():
         source = form.source.data
         highlighting = form.highlighting.data
+        resource = form.resource.data
         is_resource = False
-        if form.resource.data:
-            source = form.resource.data
+        if resource:
+            source = resource
             highlighting = 'text'
             is_resource = True
 
@@ -101,12 +102,22 @@ def view(slug):
         anchorlinenos=True,
     )
 
+    url = ''
+    if paste.is_resource:
+        with app.app_context():
+            s3 = boto3.clients['s3']
+            url = s3.generate_presigned_url('get_object', {
+                'Bucket': app.config['AWS_S3_BUCKET'],
+                'Key': paste.source,
+            }, ExpiresIn=60)
+
     return render_template(
         'view.html',
         styles=formatter.get_style_defs(),
         highlighted_source=highlight(paste.source, lexer, formatter),
         lexer=lexer,
         paste=paste,
+        url=url,
     )
 
 
@@ -122,11 +133,11 @@ def view_raw(slug):
 @app.route('/x/k', methods=['POST'])
 def generate_random_s3_key():
     with app.app_context():
-        s3_client = boto3.clients['s3']
+        s3 = boto3.clients['s3']
         for _ in range(5):
-            key = str(uuid.uuid4()) + '/'
+            key = str(uuid.uuid4())
             try:
-                s3_client.head_object(
+                s3.head_object(
                     Bucket=app.config['AWS_S3_BUCKET'],
                     Key=key
                 )
