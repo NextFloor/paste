@@ -23,11 +23,11 @@ class PasteForm(ErrorFlashMixin, FlaskForm):
     )
     expiration = SelectField('자동 파기', choices=(
         ('-1', '자동 파기 안 함'),
-        ('30', '30분 후'),
-        ('360', '6시간 후'),
-        ('1440', '1일 후'),
-        ('10080', '1주일 후'),
-    ))
+        ('30', '30분 후 자동 파기'),
+        ('360', '6시간 후 자동 파기'),
+        ('1440', '1일 후 자동 파기'),
+        ('10080', '1주일 후 자동 파기'),
+    ), default='10080')
 
 
 class PasswordForm(ErrorFlashMixin, FlaskForm):
