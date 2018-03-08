@@ -75,6 +75,12 @@ class Paste(db.Model):
     def get_or_404(cls, slug):
         paste = Paste.query.get_or_404(slug)
         if paste.expire_at and (paste.expire_at <= datetime.now()):
+            if paste.is_resource:
+                s3 = boto3.clients['s3']
+                s3.delete_object(
+                    Bucket=app.config['AWS_S3_BUCKET'],
+                    Key=paste.source,
+                )
             db.session.delete(paste)
             db.session.commit()
             abort(404)
