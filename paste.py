@@ -1,17 +1,14 @@
 from flask import Flask, Response
 from flask import abort, flash, jsonify, redirect, render_template, session, url_for
-from flask_boto3 import Boto3
 from flask_humanize import Humanize
 
-import botocore
-import uuid
 from pygments import highlight
 from pygments.lexers import get_lexer_by_name
 from pygments.formatters.html import HtmlFormatter
 
 from api import api
 from forms import PasteForm, PasswordForm
-from models import db
+from models import db, boto3
 from models import Paste
 
 
@@ -21,8 +18,8 @@ app.config.from_object('config.development')
 app.config.from_envvar('PASTE_SETTINGS', silent=True)
 app.config['BOTO3_SERVICES'] = ['s3']
 db.init_app(app)
+boto3.init_app(app)
 humanize = Humanize(app)
-boto3 = Boto3(app)
 
 
 @humanize.localeselector
@@ -104,12 +101,7 @@ def view(slug):
 
     url = ''
     if paste.is_resource:
-        with app.app_context():
-            s3 = boto3.clients['s3']
-            url = s3.generate_presigned_url('get_object', {
-                'Bucket': app.config['AWS_S3_BUCKET'],
-                'Key': paste.source,
-            }, ExpiresIn=60)
+        url = paste.generate_presigned_resource_url()
 
     return render_template(
         'view.html',
@@ -132,22 +124,5 @@ def view_raw(slug):
 
 @app.route('/x/k', methods=['POST'])
 def generate_random_s3_key():
-    with app.app_context():
-        s3 = boto3.clients['s3']
-        for _ in range(5):
-            key = str(uuid.uuid4())
-            try:
-                s3.head_object(
-                    Bucket=app.config['AWS_S3_BUCKET'],
-                    Key=key
-                )
-            except botocore.exceptions.ClientError as e:
-                error_code = int(e.response['Error']['Code'])
-                if error_code == 404:
-                    break
-                else:
-                    raise
-        else:
-            raise RuntimeError()
-
-        return jsonify(key=key)
+    key = Paste.generate_random_resource_key()
+    return jsonify(key=key)

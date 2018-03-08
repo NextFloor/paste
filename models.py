@@ -1,14 +1,21 @@
+import botocore
 import random
 import string
+import uuid
+
 from datetime import datetime, timedelta
-from flask import abort
-from flask_sqlalchemy import SQLAlchemy
 from passlib.hash import argon2
 from pygments.lexers import guess_lexer
 from sqlalchemy.sql import exists
 
+from flask import abort
+from flask import current_app as app
+from flask_boto3 import Boto3
+from flask_sqlalchemy import SQLAlchemy
+
 
 db = SQLAlchemy()
+boto3 = Boto3()
 
 
 class Paste(db.Model):
@@ -56,6 +63,14 @@ class Paste(db.Model):
     def verify_password(self, password):
         return (not self.password) or argon2.verify(password, self.password)
 
+    def generate_presigned_resource_url(self):
+        s3 = boto3.clients['s3']
+        url = s3.generate_presigned_url('get_object', {
+            'Bucket': app.config['AWS_S3_BUCKET'],
+            'Key': self.source,
+        }, ExpiresIn=60)
+        return url
+
     @classmethod
     def get_or_404(cls, slug):
         paste = Paste.query.get_or_404(slug)
@@ -69,3 +84,23 @@ class Paste(db.Model):
     @staticmethod
     def _generate_random_slug():
         return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(4))
+
+    @staticmethod
+    def generate_random_resource_key():
+        s3 = boto3.clients['s3']
+        for _ in range(5):
+            key = str(uuid.uuid4())
+            try:
+                s3.head_object(
+                    Bucket=app.config['AWS_S3_BUCKET'],
+                    Key=key
+                )
+            except botocore.exceptions.ClientError as e:
+                error_code = int(e.response['Error']['Code'])
+                if error_code == 404:
+                    return key
+                else:
+                    raise
+        else:
+            raise RuntimeError()
+
