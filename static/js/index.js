@@ -78,7 +78,7 @@ $(function() {
             s3.upload({
                 Key: key,
                 Body: file,
-                ContentDisposition: 'attachment; filename="' + file.name + '"'
+                ContentDisposition: 'attachment; filename="' + encodeURIComponent(file.name) + '"'
             }, function (err) {
                 if (err) {
                     alert('upload error');
