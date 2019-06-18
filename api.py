@@ -10,13 +10,17 @@ api = Blueprint('api', __name__)
 
 @api.route('/new', methods=['POST'])
 def post():
+    file = request.files['file']
+    key = Paste.generate_random_resource_key()
+    Paste.upload_file(key, file)
+
     paste = Paste(
-        request.form['source'],
-        request.form['highlight'],
-        request.form['expiration'],
-        request.form['title'],
-        request.form['password'],
-        False,
+        key,
+        'text',
+        request.form.get('expiration', 10080),
+        request.form.get('title', file.filename),
+        request.form.get('password'),
+        True,
     )
 
     db.session.add(paste)

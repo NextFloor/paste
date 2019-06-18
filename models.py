@@ -99,7 +99,7 @@ class Paste(db.Model):
             try:
                 s3.head_object(
                     Bucket=app.config['AWS_S3_BUCKET'],
-                    Key=key
+                    Key=key,
                 )
             except botocore.exceptions.ClientError as e:
                 error_code = int(e.response['Error']['Code'])
@@ -110,3 +110,12 @@ class Paste(db.Model):
         else:
             raise RuntimeError()
 
+    @staticmethod
+    def upload_file(key, fs):
+        s3 = boto3.clients['s3']
+        s3.put_object(
+            Body=fs.read(),
+            Bucket=app.config['AWS_S3_BUCKET'],
+            ContentDisposition='attachment; filename="{}".jpg"'.format(fs.filename),
+            Key=key,
+        )
