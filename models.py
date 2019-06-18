@@ -89,7 +89,7 @@ class Paste(db.Model):
 
     @staticmethod
     def _generate_random_slug():
-        return ''.join(random.choice(string.ascii_letters + string.digits) for _ in range(4))
+        return ''.join(random.choice('ACDEFGHJKLNPQRSTXYabcdefghijknopqrstxyz3456789') for _ in range(4))
 
     @staticmethod
     def generate_random_resource_key():
