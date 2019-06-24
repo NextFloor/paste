@@ -1,5 +1,5 @@
 from flask import Flask, Response
-from flask import abort, flash, jsonify, redirect, render_template, session, url_for
+from flask import abort, flash, jsonify, redirect, render_template, request, session, url_for
 from flask_humanize import Humanize
 
 from pygments import highlight
@@ -72,12 +72,14 @@ def index():
 @app.route('/<slug>', methods=['GET', 'POST'])
 def view(slug):
     paste = Paste.get_or_404(slug)
+    password = None
     if paste.password:
         form = PasswordForm()
         if form.validate_on_submit():
             if not paste.verify_password(form.password.data):
                 flash('비밀번호가 일치하지 않습니다.', 'error')
                 return render_template('password.html', form=form)
+            password = form.password.data
         else:
             form.flash_errors()
             return render_template('password.html', form=form)
@@ -99,25 +101,24 @@ def view(slug):
         anchorlinenos=True,
     )
 
-    url = ''
-    if paste.is_resource:
-        url = paste.generate_presigned_resource_url()
-
     return render_template(
         'view.html',
         styles=formatter.get_style_defs(),
         highlighted_source=highlight(paste.source, lexer, formatter),
         lexer=lexer,
         paste=paste,
-        url=url,
+        password=password,
     )
 
 
-@app.route('/<slug>/raw')
+@app.route('/<slug>/raw', methods=['GET', 'POST'])
 def view_raw(slug):
     paste = Paste.get_or_404(slug)
-    if paste.password:
+    if paste.password and not paste.verify_password(request.form.get('password', '')):
         abort(401)
+
+    if paste.is_resource:
+        return redirect(paste.generate_presigned_resource_url())
 
     return Response(response=paste.source, status=200, mimetype='text/plain')
 
