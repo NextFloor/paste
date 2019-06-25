@@ -116,6 +116,6 @@ class Paste(db.Model):
         s3.put_object(
             Body=fs.read(),
             Bucket=app.config['AWS_S3_BUCKET'],
-            ContentDisposition='attachment; filename="{}".jpg"'.format(fs.filename),
+            ContentDisposition='attachment; filename="{}"'.format(fs.filename),
             Key=key,
         )
