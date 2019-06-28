@@ -1,6 +1,5 @@
 import botocore
 import random
-import string
 import uuid
 
 from datetime import datetime, timedelta

@@ -1,5 +1,5 @@
 from flask import Blueprint
-from flask import jsonify, request
+from flask import jsonify, request, url_for
 
 from models import db
 from models import Paste
@@ -26,7 +26,7 @@ def post():
     db.session.add(paste)
     db.session.commit()
 
-    return jsonify(code=200, slug=paste.slug)
+    return jsonify(code=200, slug=paste.slug, url=url_for('view', slug=paste.slug, _external=True))
 
 
 @api.route('/<slug>')
