@@ -35,7 +35,8 @@
 }
 
 * {
-  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
   outline: none;
 }
 
@@ -110,6 +111,8 @@ input[type="text"], input[type="password"], textarea {
   padding: 10px;
   border: 1px solid #b7b7b7;
   border-radius: 3px;
+  -webkit-transition: 0.2s;
+  -o-transition: 0.2s;
   transition: 0.2s;
   font-size: 0.9em;
 }
@@ -117,7 +120,6 @@ input[type="text"], input[type="password"], textarea {
 input[type="text"]:focus, input[type="password"]:focus, textarea:focus {
   border-bottom-color: #ff8300;
   -webkit-box-shadow: 0 2px 0 0 rgba(255, 131, 0, 1);
-  -moz-box-shadow: 0 2px 0 0 rgba(255, 131, 0, 1);
   box-shadow: 0 2px 0 0 rgba(255, 131, 0, 1);
 }
 
@@ -217,7 +219,7 @@ nav a {
   border-radius: 3px;
 
   text-align: center;
-  
+
   font-size: .9em;
 }
 
@@ -342,7 +344,8 @@ nav a {
 
   padding: .5em 1em;
   overflow: hidden;
-  text-overflow: ellipsis;
+  -o-text-overflow: ellipsis;
+     text-overflow: ellipsis;
 }
 
 .paste-header i.fa {

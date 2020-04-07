@@ -49,11 +49,13 @@
           <div id="paste-action-copy" class="paste-action" title="클립보드에 복사" data-clipboard-target="#source">
             <i class="fa fa-clipboard" aria-hidden="true"></i>
           </div>
-          <a href="{{ url_for('view_raw', slug=paste.slug) }}" target="_blank">
-            <div class="paste-action" title="원본 데이터 보기">
-              <i class="fa fa-file-text-o" aria-hidden="true"></i>
-            </div>
-          </a>
+          {% if not paste.password %}
+            <a href="{{ url_for('view_raw', slug=paste.slug) }}" target="_blank">
+              <div class="paste-action" title="원본 데이터 보기">
+                <i class="fa fa-file-text-o" aria-hidden="true"></i>
+              </div>
+            </a>
+          {% endif %}
         </div>
         <div class="paste-highlight">
           {{ highlighted_source|safe }}
