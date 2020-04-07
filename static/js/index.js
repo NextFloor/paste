@@ -68,6 +68,7 @@ $(function() {
         $('#highlighting')
             .val('auto').trigger('change.select2')
             .prop('disabled', true);
+        $('#submit-button').prop('disabled', true);
 
         $.ajax({
             url: '/x/k',
@@ -88,6 +89,7 @@ $(function() {
                     $('.source-upload-overlay-icon').removeClass('fa-cloud-upload').addClass('fa-check');
                     $('#source-upload-overlay-status').html('업로드 완료!<br>하단 정보를 기입하고 만들기 버튼을 눌러주세요.');
                     $('#resource').val(key);
+                    $('#submit-button').prop('disabled', false);
                 }
             }).on('httpUploadProgress', function (progress) {
                 var percentage = Math.round((progress.loaded / progress.total) * 100);

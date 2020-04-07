@@ -103,6 +103,11 @@ button:hover {
   background-color: #e67600;
 }
 
+button:disabled {
+  cursor: not-allowed;
+  background-color: #ccc;
+}
+
 input, select, textarea, button {
   width: 100%;
 }
