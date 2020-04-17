@@ -69,6 +69,7 @@ $(function() {
             .val('auto').trigger('change.select2')
             .prop('disabled', true);
         $('#submit-button').prop('disabled', true);
+        $('#title').val(file.name);
 
         $.ajax({
             url: '/x/k',
