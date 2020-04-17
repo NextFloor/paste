@@ -40,7 +40,7 @@
       {% if paste.is_resource %}
         <div class="paste-download">
           <form method="post" action="{{ url_for('view_raw', slug=paste.slug) }}" target="_self">
-            <input type="hidden" name="password" value="{{ password }}">
+            <input type="hidden" name="p" value="{{ password }}">
             <button><i class="fa fa-cloud-download" aria-hidden="true"></i> 파일 다운로드</button>
           </form>
         </div>
@@ -65,14 +65,18 @@
   </div>
   <div class="paste-url">
     <label for="url">주소</label>
-    <input id="url" type="text" readonly="readonly" value="{{ request.url }}">
+    <input id="url" type="text" readonly="readonly" value="{{ url_for('view', slug=paste.slug, _external=True) }}">
   </div>
-  {% if not paste.is_resource %}
     <div class="paste-source">
-      <label for="source">원본 데이터</label>
-      <textarea id="source" class="source" spellcheck="false" readonly="readonly">{{ paste.source }}</textarea>
+      <label for="source">{% if paste.is_resource %}다운로드 명령{% else %}원본 데이터{% endif %}</label>
+      <textarea id="source" class="source" spellcheck="false" readonly="readonly">
+      {%- if paste.is_resource -%}
+        curl -LOJ {{ url_for('view_raw', slug=paste.slug, _external=True) }} {% if paste.password %}-d p={{ password }}{% endif %}
+      {%- else -%}
+        {{ paste.source }}
+      {%- endif -%}
+      </textarea>
     </div>
-  {% endif %}
 
   <script type="text/javascript">
     var clipboard = new Clipboard('#paste-action-copy');

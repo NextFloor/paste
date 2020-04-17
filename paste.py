@@ -114,7 +114,7 @@ def view(slug):
 @app.route('/<slug>/raw', methods=['GET', 'POST'])
 def view_raw(slug):
     paste = Paste.get_or_404(slug)
-    if paste.password and not paste.verify_password(request.form.get('password', '')):
+    if paste.password and not paste.verify_password(request.form.get('p', '')):
         abort(401)
 
     if paste.is_resource:
